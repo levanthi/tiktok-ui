@@ -1,0 +1,107 @@
+@import '/src/components/GlobalStyles/globalStyles.module.scss';
+.sidebar {
+   padding: 20px 0 26px 8px;
+   width: 350px;
+   overflow-x: hidden;
+   overflow-y: auto;
+   height: calc(100vh - 60px);
+   overscroll-behavior-y: contain;
+   transform-style: preserve-3d;
+   -webkit-background-clip: text;
+   background-color: rgba(0, 0, 0, 0);
+   transition: background-color 0.8s;
+   /* width */
+   &:hover {
+      background-color: rgba(0, 0, 0, 0.08);
+   }
+   &::-webkit-scrollbar {
+      width: 6px;
+   }
+
+   /* Handle */
+   &::-webkit-scrollbar-thumb {
+      border-radius: 25px;
+      background-color: inherit;
+   }
+}
+.main-container {
+   padding-bottom: 8px;
+   position: relative;
+   div > a {
+      display: flex;
+      text-decoration: none;
+      padding: 8px;
+      align-items: center;
+      &:hover {
+         background-color: var(--hover-color);
+      }
+   }
+   h2 {
+      font-size: 1.8rem;
+      color: black;
+      margin-left: 8px;
+   }
+
+   &::after {
+      @include seperate;
+   }
+}
+
+.login-group {
+   padding: 20px 8px 24px;
+   position: relative;
+   &::after {
+      @include seperate;
+      left: 0;
+      right: 0;
+   }
+}
+.login-text {
+   color: rgba(22, 24, 35, 0.5);
+   line-height: 22px;
+}
+.login {
+   width: 100%;
+   padding: 6px 8px;
+   margin-top: 20px;
+   min-height: 48px;
+   font-size: 1.8rem;
+   font-weight: 600;
+   border-radius: 4px;
+   color: rgba(254, 44, 85, 1);
+   background-color: rgba(255, 255, 255, 1);
+   border: 1px solid rgba(254, 44, 85, 1);
+}
+
+.suggest-user {
+   padding: 16px 0;
+   position: relative;
+   &::after {
+      @include seperate;
+   }
+   .title {
+      padding: 0 8px;
+      margin-bottom: 8px;
+      font-size: 1.4rem;
+      line-height: 20px;
+      color: rgba(22, 24, 35, 0.75);
+   }
+   .view-change {
+      border: none;
+      background-color: transparent;
+      color: rgb(254, 44, 85);
+      font-weight: 600;
+      font-size: 1.4rem;
+      line-height: 20px;
+      padding: 0px 8px;
+      margin-top: 8px;
+      cursor: pointer;
+   }
+   img {
+      width: 32px;
+      height: 32px;
+   }
+   a {
+      padding: 8px;
+   }
+}

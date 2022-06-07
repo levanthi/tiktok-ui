@@ -1,0 +1,49 @@
+@import 'normalize.css';
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap');
+
+:root {
+   --root-color: rgb(254, 44, 85);
+   --white-color: #fff;
+   --hover-color: rgba(22, 24, 35, 0.03);
+   --header-height: 60px;
+   --header-width: 1150px;
+}
+html {
+   font-size: 62.5%;
+}
+
+* {
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+}
+body {
+   font-family: 'Roboto', 'sans-serif';
+   font-size: 1.6rem;
+   line-height: 1.5;
+   text-rendering: optimizeSpeed;
+}
+@mixin button {
+   min-width: 100px;
+   height: 36px;
+   border-radius: 3px;
+   border: 1px solid rgba(22, 24, 35, 0.12);
+   background-color: white;
+   font-size: 1.6rem;
+   font-weight: 600;
+   cursor: pointer;
+   transition: background-color 0.1s;
+   &:hover {
+      background-color: var(--hover-color);
+   }
+}
+
+@mixin seperate {
+   content: '';
+   position: absolute;
+   bottom: 0;
+   width: 94%;
+   height: 1px;
+   background: rgba(22, 24, 35, 0.12);
+   transform: translateY(100%) translateX(3%) scaleY(0.5);
+}

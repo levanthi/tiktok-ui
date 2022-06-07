@@ -1,0 +1,10 @@
+.container {
+   width: var(--header-width);
+   margin: auto;
+   display: flex;
+   margin-top: 60px;
+   min-height: calc(100vh - 60px);
+}
+.content {
+   flex: 1;
+}
