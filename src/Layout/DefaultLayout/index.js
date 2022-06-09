@@ -13,6 +13,7 @@ function DefaultLayout({ children }) {
             <SideBar />
             <div className={cx('content')}>{children}</div>
          </div>
+         <button className={cx('download')}>Tải ứng dụng</button>
       </div>
    );
 }

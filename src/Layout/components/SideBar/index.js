@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
+import Footer from '../Footer';
+import Button from '../../../components/Button';
 import SearchResultUser from '../SearchResultUser';
 import images from '../../../assets/images';
 import styles from './sidebar.module.scss';
@@ -94,18 +96,13 @@ function SideBar() {
                <p className={cx('login-text')}>
                   Đăng nhập để follow các tác giả, thích video và xem bình luận.
                </p>
-               <button className={cx('login')}>Đăng Nhập</button>
+               <Button large outline>
+                  Đăng nhập
+               </Button>
             </div>
             <div className={cx('suggest-user')}>
                <p className={cx('title')}>Tài khoản được đề xuất</p>
                <div className={cx('user-list')}>
-                  {/* {userList.map((user, index) => {
-                     return (
-                        <div className={cx('user-item')}>
-                           <SearchResultUser user={user} />
-                        </div>
-                     );
-                  })} */}
                   {(() => {
                      const result = [];
                      for (var i = 0; i < userList.length; i++) {
@@ -123,6 +120,9 @@ function SideBar() {
                   {isSuggestUserLimit ? 'Xem tất cả' : 'Ẩn bớt'}
                </button>
             </div>
+            <footer>
+               <Footer />
+            </footer>
          </div>
       </aside>
    );

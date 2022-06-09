@@ -1,0 +1,16 @@
+.footer {
+   padding: 14px 0 0 8px;
+   .group {
+      margin-top: 6px;
+      a {
+         text-decoration: none;
+         color: rgba(22, 24, 35, 0.5);
+         font-size: 1.2rem;
+         font-weight: 600;
+         margin-right: 6px;
+         &:hover {
+            text-decoration: underline;
+         }
+      }
+   }
+}

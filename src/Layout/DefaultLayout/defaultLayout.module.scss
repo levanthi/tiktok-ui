@@ -8,3 +8,18 @@
 .content {
    flex: 1;
 }
+.download {
+   border: none;
+   background: none;
+   outline: none;
+   color: rgba(22, 24, 35, 0.75);
+   font-weight: 700;
+   font-size: 1.4rem;
+   border: 1px solid rgba(22, 24, 35, 0.2);
+   box-shadow: 0 2px 8px rgb(0 0 0 / 6%);
+   padding: 7px;
+   border-radius: 25px;
+   position: fixed;
+   bottom: 14px;
+   right: 20px;
+}

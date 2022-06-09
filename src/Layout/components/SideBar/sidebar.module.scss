@@ -1,5 +1,9 @@
 @import '/src/components/GlobalStyles/globalStyles.module.scss';
+aside {
+   width: 350px;
+}
 .sidebar {
+   position: fixed;
    padding: 20px 0 26px 8px;
    width: 350px;
    overflow-x: hidden;
@@ -55,10 +59,14 @@
       left: 0;
       right: 0;
    }
+   button {
+      width: 100%;
+   }
 }
 .login-text {
    color: rgba(22, 24, 35, 0.5);
    line-height: 22px;
+   margin-bottom: 24px;
 }
 .login {
    width: 100%;
