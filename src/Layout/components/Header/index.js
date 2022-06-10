@@ -8,13 +8,12 @@ import {
    faMagnifyingGlass,
    faPlus,
    faSpinner,
-   // faSpinner,
 } from '@fortawesome/free-solid-svg-icons';
 import Tippy from '@tippyjs/react/headless';
 
 import { Wrapper as WrapperPopper } from '../../../components/Popper';
 import Button from '../../../components/Button';
-import SearchResultUser from '../SearchResultUser';
+import UserItem from '../UserItem';
 import images from '../../../assets/images';
 import styles from './header.module.scss';
 import Menu from '../../../components/Popper/Menu';
@@ -147,7 +146,7 @@ function Header() {
                                           key={index}
                                           className={cx('result-item')}
                                        >
-                                          <SearchResultUser user={user} />
+                                          <UserItem user={user} />
                                        </div>
                                     );
                                  })}
