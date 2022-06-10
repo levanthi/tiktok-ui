@@ -1,0 +1,52 @@
+.ball-roll {
+   height: 20px;
+   width: 60px;
+   background-color: white;
+   display: flex;
+   margin: 10px auto;
+}
+.left {
+   background-color: aqua;
+   width: 50%;
+   height: 100%;
+   border-radius: 50%;
+   position: relative;
+   animation: moveRight 1s linear infinite;
+   z-index: 1;
+}
+.right {
+   border-radius: 50%;
+   opacity: 0.9;
+   background-color: red;
+   width: 50%;
+   height: 100%;
+   animation: moveLeft 1s linear infinite;
+   position: relative;
+   z-index: 2;
+}
+@keyframes moveRight {
+   0% {
+      transform: translateX(0%) scale(1);
+      z-index: 1;
+   }
+
+   50% {
+      transform: translateX(calc(100%)) scale(0.9);
+   }
+   100% {
+      transform: translateX(0) scale(1);
+      z-index: 4;
+   }
+}
+@keyframes moveLeft {
+   0% {
+      transform: translateX(0%) scale(1);
+   }
+
+   50% {
+      transform: translateX(calc(-100%)) scale(0.9);
+   }
+   100% {
+      transform: translateX(0) scale(1);
+   }
+}

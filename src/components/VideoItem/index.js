@@ -121,15 +121,15 @@ function VideoItem({ data }) {
                {isVideoLoaded.current && (
                   <div className={cx('action')}>
                      <button>
-                        <img src={images.heart} />
+                        <img src={images.heart} alt="heart icon" />
                      </button>
                      <span>{data.hearts}</span>
                      <button>
-                        <img src={images.comment} />
+                        <img src={images.comment} alt="comment icon" />
                      </button>
                      <span>{data.comments}</span>
                      <button>
-                        <img src={images.share} />
+                        <img src={images.share} alt="share icon" />
                      </button>
                      <span>{data.shares}</span>
                   </div>
@@ -144,7 +144,7 @@ function VideoItem({ data }) {
                />
                <div className={cx('video-controls')}>
                   <div className={cx('report')}>
-                     <img src={images.report} />
+                     <img src={images.report} alt="heart report" />
                      <span>Báo cáo</span>
                   </div>
                   <div className={cx('control')}>
