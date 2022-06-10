@@ -21,13 +21,23 @@ import Menu from '../../../components/Popper/Menu';
 
 const cx = classNames.bind(styles);
 const MENU_ITEMS = [
-   { icon: images.ASquare, value: 'Tiếng Việt' },
+   {
+      icon: images.ASquare,
+      title: 'Tiếng Việt',
+      children: {
+         title: 'Language',
+         data: [
+            { code: 'en', title: 'Tiếng Việt' },
+            { code: 'vi', title: 'English' },
+         ],
+      },
+   },
    {
       icon: images.questionCircle,
-      value: 'Phản hồi và trợ giúp',
+      title: 'Phản hồi và trợ giúp',
       to: '/feedback',
    },
-   { icon: images.keyboardCircle, value: 'Phím tắt trến bàn phím' },
+   { icon: images.keyboardCircle, title: 'Phím tắt trến bàn phím' },
 ];
 
 const data = [
@@ -84,13 +94,12 @@ function Header() {
       searchResultRef.current.style.display = 'block';
    }
    function handleSearchBlur() {
-      setTimeout(() => {
-         searchWrapRef.current.style.border = 'none';
-         searchResultRef.current.style.display = 'none';
-      }, 100);
+      searchWrapRef.current.style.border = 'none';
+      searchResultRef.current.style.display = 'none';
    }
    function handleClear() {
       setSearchInput('');
+      setSearchResult([]);
       searchRef.current.focus();
    }
    useEffect(() => {

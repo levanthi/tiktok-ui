@@ -1,9 +1,19 @@
+@import '/src/components/GlobalStyles/globalStyles.module.scss';
 ::-webkit-scrollbar {
    width: 7px;
 }
 ::-webkit-scrollbar-thumb {
    background: rgb(211, 210, 210);
    border-radius: 25px;
+}
+
+@keyframes appear {
+   from {
+      opacity: 1;
+   }
+   to {
+      opacity: 0;
+   }
 }
 
 //wrapper
@@ -18,14 +28,39 @@
    padding: 10px 0;
 }
 
+// Menu
+.menu {
+   animation: rotate;
+   margin-top: 10px;
+   .title {
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding: 6px 16px;
+      font-weight: 600;
+      font-size: 1.8rem;
+      .chevron-left {
+         position: absolute;
+         width: 20px;
+         height: 20px;
+      }
+      h4 {
+         flex: 1;
+         text-align: center;
+      }
+   }
+   &::before {
+      @include topArrow(22px);
+   }
+}
+.trans-left-s {
+   transform: translateX(20px);
+}
+
 //Menu Item
 .menu-item {
    height: 42px;
-   width: 230px;
-   display: flex;
-   padding: 10px 16px;
-
-   align-items: center;
+   width: 240px;
    cursor: pointer;
    &:hover {
       background-color: var(--hover-color);
@@ -33,16 +68,23 @@
    img {
       width: 20px;
       height: 20px;
-      margin-right: 8px;
    }
    button,
    a {
+      width: 100%;
+      height: 100%;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
       text-decoration: none;
       color: var(--text-color);
-      padding: 0;
       font-weight: 600;
       font-size: 1.6rem;
       background: transparent;
       text-align: left;
+      span {
+         flex: 1;
+         margin-left: 8px;
+      }
    }
 }

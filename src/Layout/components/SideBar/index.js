@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import Footer from '../Footer';
 import Button from '../../../components/Button';
-import SearchResultUser from '../SearchResultUser';
+import UserItem from '../UserItem';
 import images from '../../../assets/images';
 import styles from './sidebar.module.scss';
 
@@ -109,7 +109,7 @@ function SideBar() {
                         if (i === 5 && isSuggestUserLimit) break;
                         result.push(
                            <div key={i} className={cx('user-item')}>
-                              <SearchResultUser user={userList[i]} />
+                              <UserItem user={userList[i]} />
                            </div>,
                         );
                      }

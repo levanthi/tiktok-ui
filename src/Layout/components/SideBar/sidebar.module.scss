@@ -1,6 +1,7 @@
 @import '/src/components/GlobalStyles/globalStyles.module.scss';
 aside {
    width: 350px;
+   min-width: 350px;
 }
 .sidebar {
    position: fixed;

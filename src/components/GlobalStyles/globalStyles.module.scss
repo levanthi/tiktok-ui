@@ -24,6 +24,19 @@ body {
    line-height: 1.5;
    text-rendering: optimizeSpeed;
 }
+@mixin topArrow($right) {
+   content: '';
+   border: 11px solid;
+   border-bottom-width: 10px;
+   border-top-color: transparent;
+   border-right-color: transparent;
+   border-bottom-color: var(--white-color);
+   border-left-color: transparent;
+   position: absolute;
+   top: 0;
+   right: $right;
+   transform: translateY(-100%);
+}
 @mixin button {
    min-width: 100px;
    height: 36px;
