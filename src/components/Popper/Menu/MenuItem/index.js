@@ -6,7 +6,10 @@ const cx = classNames.bind(styles);
 
 function MenuItem({ data, onClick }) {
    return (
-      <div className={cx('menu-item')} onClick={onClick}>
+      <div
+         className={cx('menu-item', { separate: data.separate })}
+         onClick={onClick}
+      >
          <Button to={data.to} href={data.href}>
             {data.icon && <img src={data.icon} alt="icon" />}
             <span>{data.title}</span>

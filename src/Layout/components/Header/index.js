@@ -9,9 +9,14 @@ import {
    faPlus,
    faSpinner,
 } from '@fortawesome/free-solid-svg-icons';
-import Tippy from '@tippyjs/react/headless';
+import TippyHeadless from '@tippyjs/react/headless';
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
 
 import { Wrapper as WrapperPopper } from '../../../components/Popper';
+import { LogoTiktok, SendIcon, InboxIcon } from '../../../components/Icons';
+import Images from '../../../components/Images';
+import Authentication from '../../../components/Authentication';
 import Button from '../../../components/Button';
 import UserItem from '../UserItem';
 import images from '../../../assets/images';
@@ -19,7 +24,7 @@ import styles from './header.module.scss';
 import Menu from '../../../components/Popper/Menu';
 
 const cx = classNames.bind(styles);
-const MENU_ITEMS = [
+const MENU_ITEMS_NOT_LOGIN = [
    {
       icon: images.ASquare,
       title: 'Tiếng Việt',
@@ -36,7 +41,47 @@ const MENU_ITEMS = [
       title: 'Phản hồi và trợ giúp',
       to: '/feedback',
    },
-   { icon: images.keyboardCircle, title: 'Phím tắt trến bàn phím' },
+   { icon: images.keyboardCircle, title: 'Phím tắt trên bàn phím' },
+];
+const MENU_ITEMS_HAD_LOGIN = [
+   {
+      icon: images.defaultAvatar,
+      title: 'Xem hồ sơ',
+      to: '/profile',
+   },
+   {
+      icon: images.tiktokCoin,
+      title: 'Nhận xu',
+      to: '/coin',
+   },
+   {
+      icon: images.setting,
+      title: 'Cài đặt',
+      to: '/setting',
+   },
+   {
+      icon: images.ASquare,
+      title: 'Tiếng Việt',
+      children: {
+         title: 'Language',
+         data: [
+            { code: 'en', title: 'Tiếng Việt' },
+            { code: 'vi', title: 'English' },
+         ],
+      },
+   },
+   {
+      icon: images.questionCircle,
+      title: 'Phản hồi và trợ giúp',
+      to: '/feedback',
+   },
+   { icon: images.keyboardCircle, title: 'Phím tắt trên bàn phím' },
+   {
+      icon: images.logout,
+      title: 'Đăng xuất',
+      to: '/logout',
+      separate: true,
+   },
 ];
 
 const data = [
@@ -79,21 +124,23 @@ const data = [
 ];
 
 function Header() {
+   const isLogin = true;
    const [searchResult, setSearchResult] = useState([]);
    const [searchInput, setSearchInput] = useState('');
    const [isLoading, setIsLoading] = useState(false);
+   const [isShowAuthenPopup, setIsShowAuthenPopup] = useState(false);
 
+   const searchTimerIdRef = useRef();
    const searchRef = useRef();
    const searchWrapRef = useRef();
    const searchResultRef = useRef();
-   const optionsTimerId = useRef([]);
 
    function handleSearchFocus() {
       searchWrapRef.current.style.border = '1px solid #a6a7ac';
       searchResultRef.current.style.display = 'block';
    }
    function handleSearchBlur() {
-      searchWrapRef.current.style.border = 'none';
+      searchWrapRef.current.style.border = '1px solid transparent';
       searchResultRef.current.style.display = 'none';
    }
    function handleClear() {
@@ -102,33 +149,42 @@ function Header() {
       searchRef.current.focus();
    }
    useEffect(() => {
-      setIsLoading(true);
-      if (searchInput) {
-         setTimeout(() => {
-            const result = data.filter((item) => {
-               return item.name
-                  .toLowerCase()
-                  .includes(searchInput.toLowerCase());
-            });
-            setIsLoading(false);
-            setSearchResult(result);
-         }, 500);
+      if (!searchTimerIdRef.current) {
+         searchTimerIdRef.current = 99;
       } else {
-         setSearchResult([]);
-         setIsLoading(false);
+         clearTimeout(searchTimerIdRef.current);
+         searchTimerIdRef.current = setTimeout(() => {
+            console.log('hello');
+            setIsLoading(true);
+            if (searchInput) {
+               setTimeout(() => {
+                  const result = data.filter((item) => {
+                     return item.name
+                        .toLowerCase()
+                        .includes(searchInput.toLowerCase());
+                  });
+                  setIsLoading(false);
+                  setSearchResult(result);
+               }, 500);
+            } else {
+               setSearchResult([]);
+               setIsLoading(false);
+            }
+         }, 350);
       }
    }, [searchInput]);
-
    return (
       <header>
+         {isShowAuthenPopup && <Authentication close={setIsShowAuthenPopup} />}
          <div className={cx('wrapper')}>
             <div className={cx('inner')}>
                <Link to="/" className={cx('logo')}>
-                  <img src={images.logo} alt="logo" />
+                  <LogoTiktok />
                </Link>
+
                <div>
-                  <Tippy
-                     visible
+                  <TippyHeadless
+                     // visible
                      interactive
                      placement="bottom-end"
                      render={(attrs) => (
@@ -187,69 +243,67 @@ function Header() {
                            <FontAwesomeIcon icon={faMagnifyingGlass} />
                         </button>
                      </div>
-                  </Tippy>
+                  </TippyHeadless>
                </div>
 
-               <div className={cx('actions')}>
-                  <Button classic>
-                     <FontAwesomeIcon icon={faPlus} />
-                     <span className={cx('ml-s')}>Tải lên</span>
-                  </Button>
-                  <Button primary>Đăng nhập</Button>
-                  <div
-                     className={cx('options')}
-                     onMouseEnter={() => {
-                        // optionsTimerId.current.forEach((id) => {
-                        //    clearTimeout(id);
-                        // });
-                        // const detailElement = document.querySelector(
-                        //    `.${styles.detail}`,
-                        // );
-                        // detailElement.style.display = 'block';
-                        // detailElement.style.opacity = 1;
-                        // detailElement.style.transition = 'none';
-                     }}
-                     onMouseLeave={() => {
-                        const detailElement = document.querySelector(
-                           `.${styles.detail}`,
-                        );
-                        if (detailElement) {
-                           optionsTimerId.current[0] = setTimeout(() => {
-                              detailElement.style.transition = 'opacity .4s';
-                              detailElement.style.opacity = 0;
-                           }, 600);
-                           optionsTimerId.current[1] = setTimeout(() => {
-                              detailElement.style.display = 'none';
-                           }, 1000);
-                        }
-                     }}
-                  >
-                     <Menu items={MENU_ITEMS}>
-                        <button className={cx('options-btn')}>
-                           <FontAwesomeIcon icon={faEllipsisVertical} />
-                        </button>
-                     </Menu>
-                     {/* <div className={cx('detail')}>
-                        <Link to={''}>
-                           <img src={images.ASquare} alt="language icon" />
-                           <span>Tiếng Việt</span>
-                        </Link>
-                        <Link to={''}>
-                           <img
-                              src={images.questionCircle}
-                              alt="question icon"
+               <div className={cx('actions', { 'had-login': isLogin })}>
+                  {!isLogin ? (
+                     <>
+                        <Button classic>
+                           <FontAwesomeIcon icon={faPlus} />
+                           <span
+                              onClick={() => {
+                                 setIsShowAuthenPopup(true);
+                              }}
+                              className={cx('ml-s')}
+                           >
+                              Tải lên
+                           </span>
+                        </Button>
+                        <Button
+                           onClick={() => {
+                              setIsShowAuthenPopup(true);
+                           }}
+                           primary
+                        >
+                           Đăng nhập
+                        </Button>
+                        <div className={cx('options')}>
+                           <Menu items={MENU_ITEMS_NOT_LOGIN}>
+                              <button className={cx('options-btn')}>
+                                 <FontAwesomeIcon icon={faEllipsisVertical} />
+                              </button>
+                           </Menu>
+                        </div>
+                     </>
+                  ) : (
+                     <>
+                        <Button classic>
+                           <FontAwesomeIcon icon={faPlus} />
+                           <span className={cx('ml-s')}>Tải lên</span>
+                        </Button>
+                        <Tippy delay={[0, 200]} content="Tin Nhắn" interactive>
+                           <div className={cx('send-icon-container')}>
+                              <SendIcon />
+                           </div>
+                        </Tippy>
+                        <Tippy content="Hộp thư" interactive>
+                           <div className={cx('inbox-icon-container')}>
+                              <InboxIcon />
+                           </div>
+                        </Tippy>
+                        <Menu
+                           className={cx('ml-0')}
+                           items={MENU_ITEMS_HAD_LOGIN}
+                        >
+                           <Images
+                              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTidCZGuRI6nf8C2GN9cYC1R_HRspzbaEWPDA&usqp=CAU"
+                              alt="avatar"
+                              className={cx('mr-l-m')}
                            />
-                           <span>Phản hồi và trợ giúp</span>
-                        </Link>
-                        <Link to={''}>
-                           <img
-                              src={images.keyboardCircle}
-                              alt="keyboard icon"
-                           />
-                           <span>Phím tắt trên bàn phím</span>
-                        </Link>
-                     </div> */}
-                  </div>
+                        </Menu>
+                     </>
+                  )}
                </div>
             </div>
          </div>

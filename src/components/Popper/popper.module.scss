@@ -1,4 +1,4 @@
-@import '/src/components/GlobalStyles/globalStyles.module.scss';
+@import '/src/components/GlobalStyles/globalStyles.scss';
 ::-webkit-scrollbar {
    width: 7px;
 }
@@ -7,20 +7,10 @@
    border-radius: 25px;
 }
 
-@keyframes appear {
-   from {
-      opacity: 1;
-   }
-   to {
-      opacity: 0;
-   }
-}
-
 //wrapper
 .wrapper {
    width: 100%;
    min-height: 100px;
-   max-height: 70vh;
    border-radius: 8px;
    background-color: #fff;
    box-shadow: rgb(0 0 0 / 12%) 0px 2px 12px;
@@ -30,8 +20,7 @@
 
 // Menu
 .menu {
-   animation: rotate;
-   margin-top: 10px;
+   margin-top: 8px;
    .title {
       position: relative;
       display: flex;
@@ -82,9 +71,14 @@
       font-size: 1.6rem;
       background: transparent;
       text-align: left;
+      font-family: ProximaNova;
       span {
          flex: 1;
          margin-left: 8px;
       }
    }
+}
+
+.separate {
+   border-top: 2px solid var(--hover-color);
 }

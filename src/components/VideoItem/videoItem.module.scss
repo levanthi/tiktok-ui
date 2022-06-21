@@ -1,10 +1,10 @@
-@import '/src/components/GlobalStyles/globalStyles.module.scss';
+@import '/src/components/GlobalStyles/globalStyles.scss';
 
 .video-item {
    padding: 20px 0;
    position: relative;
    &::after {
-      @include seperate;
+      @include separate;
       width: 100%;
       transform: unset;
    }

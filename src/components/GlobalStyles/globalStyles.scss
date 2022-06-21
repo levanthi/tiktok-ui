@@ -1,0 +1,108 @@
+@import 'normalize.css';
+
+//font
+@font-face {
+   font-family: ProximaNova;
+   src: url('../../assets/fonts/Proxima-Nova-Bold.woff');
+   font-weight: 700;
+}
+@font-face {
+   font-family: ProximaNova;
+   src: url('../../assets/fonts/Proxima-Nova-Regular.woff2');
+   font-weight: 400;
+}
+@font-face {
+   font-family: ProximaNova;
+   src: url('../../assets/fonts/ProximaNova-Semibold.woff2');
+   font-weight: 600;
+}
+@font-face {
+   font-family: SofiaPro;
+   src: url('../../assets/fonts/sofiapro-bold.woff');
+   font-weight: 700;
+}
+
+//public css
+:root {
+   --root-color: rgb(254, 44, 85);
+   --white-color: #fff;
+   --hover-color: rgba(22, 24, 35, 0.03);
+   --header-height: 60px;
+   --header-width: 1150px;
+   --text-color: black;
+}
+html {
+   font-size: 62.5%;
+}
+
+* {
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+}
+body {
+   font-size: 1.6rem;
+   line-height: 1.5;
+   text-rendering: optimizeSpeed;
+   font-family: ProximaNova;
+}
+
+body {
+   .tippy-box {
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 22px;
+      background-color: rgba(84, 84, 84, 0.92);
+      color: rgb(255, 255, 255);
+      padding: 8px;
+   }
+   .tippy-content {
+      padding: 0;
+   }
+   .tiny-arrow {
+      color: rgba(84, 84, 84, 0.92);
+   }
+   .tippy-box[data-placement^='bottom'] > .tippy-arrow::before {
+      top: -8px;
+   }
+}
+
+//minxin
+@mixin topArrow($right) {
+   content: '';
+   border: 11px solid;
+   border-bottom-width: 10px;
+   border-top-color: transparent;
+   border-right-color: transparent;
+   border-bottom-color: var(--white-color);
+   border-left-color: transparent;
+   position: absolute;
+   top: 0;
+   right: $right;
+   transform: translateY(-100%);
+}
+@mixin button {
+   min-width: 100px;
+   height: 36px;
+   border-radius: 3px;
+   border: 1px solid rgba(22, 24, 35, 0.12);
+   background-color: white;
+   font-size: 1.6rem;
+   font-weight: 600;
+   cursor: pointer;
+   transition: background-color 0.1s;
+   &:hover {
+      background-color: var(--hover-color);
+   }
+}
+
+@mixin separate {
+   content: '';
+   position: absolute;
+   bottom: 0;
+   width: 94%;
+   height: 1px;
+   background: rgba(22, 24, 35, 0.12);
+   transform: translateY(100%) translateX(3%) scaleY(0.5);
+}

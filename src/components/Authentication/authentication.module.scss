@@ -1,0 +1,103 @@
+.wrapper {
+   position: fixed;
+   inset: 0;
+   z-index: 999;
+   background: rgba(0, 0, 0, 0.5);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   transition: all 0.25s ease-out;
+   .container {
+      width: 483px;
+      height: 80vh;
+      background-color: white;
+      border-radius: 9px;
+      font-size: 1.4rem;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      transform: scale(0);
+      transition: all 0.2s ease-out;
+   }
+   .header {
+      height: 50px;
+   }
+   .close-wrapper {
+      background-color: rgba(22, 24, 35, 0.03);
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      width: 28px;
+      height: 28px;
+      padding: 6px;
+      box-sizing: content-box;
+      border-radius: 50%;
+      cursor: pointer;
+   }
+   .close-icon {
+      width: 100%;
+      height: 100%;
+   }
+   .title {
+      font-family: sans-serif, Times, serif;
+      text-align: center;
+      font-size: 3rem;
+      margin: 16px 0;
+      font-weight: bold;
+   }
+}
+
+.body {
+   flex: 1;
+   overflow-y: scroll;
+   padding: 0 50px;
+}
+
+.drop-down {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   img {
+      width: 24px;
+      height: 24px;
+   }
+}
+
+.policy {
+   padding: 10px 50px;
+   background: var(--white-color);
+   font-size: 1.2rem;
+   color: rgba(22, 24, 35, 0.5);
+   font-family: 'IBM Plex Sans', ProximaNova, Arial, Tahoma, PingFangSC,
+      sans-serif;
+   a {
+      text-decoration: none;
+      &:hover {
+         text-decoration: underline;
+      }
+   }
+}
+
+.footer {
+   height: 63px;
+   border-top: 1px solid rgba(22, 24, 35, 0.12);
+   background-color: white;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-size: 1.5rem;
+   font-weight: 600;
+   button {
+      border: unset;
+      background-color: transparent;
+      font-size: 1.5rem;
+      color: var(--root-color);
+      font-weight: bold;
+      &:hover {
+         cursor: pointer;
+         text-decoration: underline;
+      }
+   }
+}

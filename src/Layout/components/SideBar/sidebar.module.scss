@@ -1,4 +1,4 @@
-@import '/src/components/GlobalStyles/globalStyles.module.scss';
+@import '/src/components/GlobalStyles/globalStyles.scss';
 aside {
    width: 350px;
    min-width: 350px;
@@ -48,7 +48,7 @@ aside {
    }
 
    &::after {
-      @include seperate;
+      @include separate;
    }
 }
 
@@ -56,7 +56,7 @@ aside {
    padding: 20px 8px 24px;
    position: relative;
    &::after {
-      @include seperate;
+      @include separate;
       left: 0;
       right: 0;
    }
@@ -86,7 +86,7 @@ aside {
    padding: 16px 0;
    position: relative;
    &::after {
-      @include seperate;
+      @include separate;
    }
    .title {
       padding: 0 8px;

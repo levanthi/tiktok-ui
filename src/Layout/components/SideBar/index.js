@@ -1,14 +1,18 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
+
 import Footer from '../Footer';
 import Button from '../../../components/Button';
+import Authentication from '../../../components/Authentication';
 import UserItem from '../UserItem';
+import { HomeIcon, PeopleIcon, LiveIcon } from '../../../components/Icons';
 import images from '../../../assets/images';
 import styles from './sidebar.module.scss';
 
 const cx = classNames.bind(styles);
 function SideBar() {
+   const isLogin = true;
    const userList = [
       {
          avatar:
@@ -65,41 +69,54 @@ function SideBar() {
          subName: 'Đàm Bích Thủy',
       },
    ];
+
    const [isSuggestUserLimit, setIsSuggestUserLimit] = useState(true);
+   const [isShowAuthenPopup, setIsShowAuthenPopup] = useState(false);
+
    function handleViewChange() {
       setIsSuggestUserLimit((preState) => !preState);
    }
    return (
       <aside>
+         {isShowAuthenPopup && <Authentication close={setIsShowAuthenPopup} />}
          <div className={cx('sidebar')}>
             <div className={cx('main-container')}>
                <div>
                   <Link to="/">
-                     <img src={images.home} alt="home icon" />
+                     <HomeIcon />
                      <h2>Dành cho bạn</h2>
                   </Link>
                </div>
                <div>
                   <Link to="/">
-                     <img src={images.people} alt="people icon" />
+                     <PeopleIcon />
                      <h2>Đang Follow</h2>
                   </Link>
                </div>
                <div>
                   <Link to="/">
-                     <img src={images.liveStream} alt="livestream icon" />
+                     <LiveIcon />
                      <h2>LIVE</h2>
                   </Link>
                </div>
             </div>
-            <div className={cx('login-group')}>
-               <p className={cx('login-text')}>
-                  Đăng nhập để follow các tác giả, thích video và xem bình luận.
-               </p>
-               <Button large outline>
-                  Đăng nhập
-               </Button>
-            </div>
+            {!isLogin && (
+               <div className={cx('login-group')}>
+                  <p className={cx('login-text')}>
+                     Đăng nhập để follow các tác giả, thích video và xem bình
+                     luận.
+                  </p>
+                  <Button
+                     large
+                     outline
+                     onClick={() => {
+                        setIsShowAuthenPopup(true);
+                     }}
+                  >
+                     Đăng nhập
+                  </Button>
+               </div>
+            )}
             <div className={cx('suggest-user')}>
                <p className={cx('title')}>Tài khoản được đề xuất</p>
                <div className={cx('user-list')}>

@@ -10,7 +10,7 @@ import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
-const Menu = ({ children, items = [] }) => {
+const Menu = ({ children, items = [], className }) => {
    const menuRef = useRef();
    const timerId = useRef();
    const [history, setHistory] = useState([{ data: items }]);
@@ -41,14 +41,15 @@ const Menu = ({ children, items = [] }) => {
          render={(attrs) => (
             <div
                ref={menuRef}
-               className={cx('menu', 'trans-left-s')}
+               className={className + ' ' + cx('menu', 'trans-left-s')}
                tabIndex="-1"
                {...attrs}
-               onMouseOver={() => {
+               onMouseEnter={() => {
                   clearTimeout(timerId.current);
-                  menuRef.current.animate({});
+                  menuRef.current.animate(null);
+                  menuRef.current.style.opacity = 1;
                }}
-               onMouseOut={() => {
+               onMouseLeave={() => {
                   const appear = [{ opacity: 1 }, { opacity: 0 }];
                   const duration = {
                      duration: 300,

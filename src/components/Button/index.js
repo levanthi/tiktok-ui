@@ -13,7 +13,6 @@ function Button({
    primary,
    outline,
    classic,
-   onClick,
    transparent,
    ...rest
 }) {
