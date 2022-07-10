@@ -49,8 +49,10 @@
    position: relative;
    width: fit-content;
    video {
+      background-color: var(--hover-color);
       cursor: pointer;
       max-width: 450px;
+      width: 281px;
    }
    &:hover {
       .video-controls {
@@ -121,6 +123,7 @@
             .process {
                pointer-events: none;
                background-color: var(--white-color);
+               width: 0%;
             }
             .process-range {
                width: 100%;
@@ -187,7 +190,6 @@
                   position: absolute;
                   height: 24px;
                   width: 64px;
-                  background-color: rgba(22, 24, 35, 0.34);
 
                   pointer-events: all;
                   box-sizing: content-box;
@@ -265,4 +267,11 @@
       border-radius: 10px;
       cursor: pointer;
    }
+}
+
+.disable {
+   pointer-events: none;
+}
+.disable ~ .video-controls {
+   display: none;
 }

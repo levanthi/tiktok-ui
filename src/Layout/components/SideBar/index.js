@@ -7,7 +7,6 @@ import Button from '../../../components/Button';
 import Authentication from '../../../components/Authentication';
 import UserItem from '../UserItem';
 import { HomeIcon, PeopleIcon, LiveIcon } from '../../../components/Icons';
-import images from '../../../assets/images';
 import styles from './sidebar.module.scss';
 
 const cx = classNames.bind(styles);

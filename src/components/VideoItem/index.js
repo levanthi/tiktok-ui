@@ -1,9 +1,20 @@
-import { useRef, useState } from 'react';
+import {
+   useRef,
+   useState,
+   forwardRef,
+   useImperativeHandle,
+   useEffect,
+   memo,
+} from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
+import { useSelector, useDispatch } from 'react-redux';
+
 import styles from './videoItem.module.scss';
 import Button from '../../components/Button';
 import images from '../../assets/images';
+import { volumeSelector, isMutedSelector } from '../../redux/selectors';
+import volumeSlice from '../../redux/volumeSlice';
 
 const cx = classNames.bind(styles);
 function convertSecondToMinute(second) {
@@ -16,18 +27,25 @@ function convertSecondToMinute(second) {
    return result;
 }
 
-function VideoItem({ data }) {
+function VideoItem({ data, index }, ref) {
+   const dispatch = useDispatch();
+   const volume = useSelector(volumeSelector);
+   const isMuted = useSelector(isMutedSelector);
+
    const [isPlay, setIsPlay] = useState(false);
    const [videoDuration, setVideoDuration] = useState();
-   const [isMuted, setIsMuted] = useState(false);
 
-   const videoProcessRef = useRef(0);
-   const videoRangeRef = useRef();
+   const videoProcessRef = useRef();
+   const videoRangeRef = useRef(0);
    const videoRef = useRef();
    const volumeProcessRef = useRef();
    const volumeRangeRef = useRef();
    const currentTimeRef = useRef();
    const isVideoLoaded = useRef(false);
+
+   useEffect(() => {
+      handleVideoLoaded();
+   }, [volume]);
 
    function handleVideoProcess(e) {
       videoProcessRef.current.style.width = e.target.value + '%';
@@ -50,9 +68,10 @@ function VideoItem({ data }) {
          );
       }
       if (videoRangeRef.current) {
-         videoRangeRef.current.value = Math.floor(
-            (videoRef.current.currentTime / videoRef.current.duration) * 100,
-         );
+         videoRangeRef.current.value =
+            Math.floor(
+               (videoRef.current.currentTime / videoRef.current.duration) * 100,
+            ) || 0;
          videoProcessRef.current.style.width =
             videoRangeRef.current.value + '%';
       }
@@ -61,42 +80,44 @@ function VideoItem({ data }) {
       let volume = +e.target.value;
       volumeProcessRef.current.style.width = volume + '%';
       videoRef.current.volume = volume / 100;
-      localStorage.setItem('tiktok', JSON.stringify({ volume: volume / 100 }));
-      setIsMuted(!volume);
+      dispatch(volumeSlice.actions.volumeChange(volume / 100));
    }
    function handleVideoLoaded() {
-      isVideoLoaded.current = true;
-      setVideoDuration(videoRef.current.duration);
-      let volume = JSON.parse(localStorage.getItem('tiktok')) || {};
-      volume = +(volume.volume === undefined ? 1 : volume.volume);
       volumeRangeRef.current.value = volume * 100;
       volumeProcessRef.current.style.width = volume * 100 + '%';
-      setIsMuted(!volume);
+      videoRef.current.volume = volume;
+      isVideoLoaded.current = true;
+      setVideoDuration(videoRef.current.duration);
+      if (isMuted) {
+         videoRef.current.volume = 0;
+         volumeProcessRef.current.style.width = '0%';
+         volumeRangeRef.current.value = 0;
+      }
    }
    function handleMuted() {
       if (+volumeRangeRef.current.value > 0) {
-         let setting = JSON.parse(localStorage.getItem('tiktok')) || {};
          volumeRangeRef.current.value = 0;
-         volumeProcessRef.current.style.width = 0 + '%';
+         volumeProcessRef.current.style.width = '0%';
          videoRef.current.volume = 0;
-         localStorage.setItem(
-            'tiktok',
-            JSON.stringify({ ...setting, isMuted: true }),
-         );
-         setIsMuted(true);
       } else {
-         let setting = JSON.parse(localStorage.getItem('tiktok')) || {};
-         volumeRangeRef.current.value = setting.volume * 100 || 100;
-         volumeProcessRef.current.style.width =
-            (setting.volume || 1) * 100 + '%';
-         videoRef.current.volume = setting.volume || 1;
-         localStorage.setItem(
-            'tiktok',
-            JSON.stringify({ ...setting, isMuted: false }),
-         );
-         setIsMuted(false);
+         volumeRangeRef.current.value = volume * 100 || 50;
+         volumeProcessRef.current.style.width = (volume * 100 || 50) + '%';
+         videoRef.current.volume = 0.5;
       }
+      dispatch(volumeSlice.actions.mutedToggle());
    }
+   useImperativeHandle(ref, () => {
+      if (!ref) return undefined;
+      return {
+         play: () => {
+            videoRef.current.play();
+         },
+         pause: () => {
+            videoRef.current.pause();
+         },
+         video: videoRef.current,
+      };
+   });
    return (
       <div className={cx('video-item')}>
          <div className={cx('info-group')}>
@@ -135,12 +156,19 @@ function VideoItem({ data }) {
                   </div>
                )}
                <video
+                  autoPlay={index === 0}
                   loop
                   src={data.video}
                   ref={videoRef}
                   onTimeUpdate={handleTimeUpdate}
                   onClick={handlePlayPause}
                   onLoadedData={handleVideoLoaded}
+                  onPlay={() => {
+                     setIsPlay(true);
+                  }}
+                  onPause={() => {
+                     setIsPlay(false);
+                  }}
                />
                <div className={cx('video-controls')}>
                   <div className={cx('report')}>
@@ -209,4 +237,4 @@ function VideoItem({ data }) {
    );
 }
 
-export default VideoItem;
+export default memo(forwardRef(VideoItem));

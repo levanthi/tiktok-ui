@@ -22,6 +22,7 @@ function Images(
          ref={ref}
          width={width}
          height={height}
+         alt="this is icon"
          {...props}
          onError={() => {
             setFeedback(feedback);

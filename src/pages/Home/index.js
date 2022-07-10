@@ -111,11 +111,17 @@ let data = [
 ];
 
 function Home() {
-   const scrollElementRef = useRef();
-   const [videos, setVideos] = useState(data.slice(0, 2));
    const [isLoading, setIsLoading] = useState(false);
+   const [videos, setVideos] = useState(data.slice(0, 2));
+   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+
+   const currentVideoRef = useRef();
+   const preVideo = useRef([]);
+   const scrollElementRef = useRef();
+
    useEffect(() => {
       const handleScroll = () => {
+         //scroll to load
          if (
             window.innerHeight -
                scrollElementRef.current.getBoundingClientRect().top >=
@@ -127,8 +133,18 @@ function Home() {
                data.push(data[1]);
                setVideos((pre) => [...pre, data.shift(), data.shift()]);
                setIsLoading(false);
+               window.addEventListener('scroll', handleScroll);
             }, 1000);
+            window.removeEventListener('scroll', handleScroll);
          }
+         //scroll to play
+         let videoIndex = Math.round((window.scrollY - 80) / 611);
+         setCurrentVideoIndex((preState) => {
+            if (preState !== videoIndex) {
+               return videoIndex;
+            }
+            return preState;
+         });
       };
       window.addEventListener('scroll', handleScroll);
 
@@ -136,11 +152,25 @@ function Home() {
          window.removeEventListener('scroll', handleScroll);
       };
    }, []);
-
+   useEffect(() => {
+      preVideo.current.unshift(currentVideoRef.current);
+      currentVideoRef.current.play();
+      return () => {
+         const preVideoRef = preVideo.current.pop();
+         preVideoRef.pause();
+      };
+   }, [currentVideoIndex]);
    return (
-      <div ref={scrollElementRef} className={cx('home')}>
+      <div ref={scrollElementRef} className={cx('wrapper')}>
          {videos.map((video, i) => {
-            return <VideoItem key={i} data={video} />;
+            return (
+               <VideoItem
+                  key={i}
+                  index={i}
+                  data={video}
+                  ref={i === currentVideoIndex ? currentVideoRef : null}
+               />
+            );
          })}
          {isLoading && <Loading />}
       </div>

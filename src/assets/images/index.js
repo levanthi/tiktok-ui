@@ -14,7 +14,6 @@ const images = {
    tiktokCoin: require('./tiktokCoin.svg').default,
    setting: require('./setting.svg').default,
    logout: require('./logout.svg').default,
-   defaultAvatar: require('./defaultAvatar.svg').default,
    defaultImage: require('./defaultAvata.png'),
    close: require('./close.svg').default,
    qr: require('./qr.svg').default,
