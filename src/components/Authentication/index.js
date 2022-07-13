@@ -1,3 +1,5 @@
+import { faShower } from '@fortawesome/free-solid-svg-icons';
+import { writeToLocalStorage } from '../../supportFunction';
 import classNames from 'classnames/bind';
 import { useEffect, useRef, useState } from 'react';
 import images from '../../assets/images';
@@ -13,6 +15,10 @@ const authenMethods = [
       isSignUp: true,
    },
    {
+      onClick: () => {
+         writeToLocalStorage('autoLogin', true);
+         window.open('https://localhost:3001/auth/facebook', '_self');
+      },
       title: 'Tiếp tục với Facebook',
       icon: images.facebook,
       isSignUp: true,
@@ -95,6 +101,7 @@ function Authentication({ close }) {
                         key={index}
                         title={showMethod.title}
                         icon={showMethod.icon}
+                        onClick={showMethod.onClick}
                      />
                   );
                })}

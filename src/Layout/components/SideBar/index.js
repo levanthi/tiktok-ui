@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
+import { useSelector } from 'react-redux';
 
+import { userSelector } from '../../../redux/selectors';
 import Footer from '../Footer';
 import Button from '../../../components/Button';
 import Authentication from '../../../components/Authentication';
@@ -11,7 +13,7 @@ import styles from './sidebar.module.scss';
 
 const cx = classNames.bind(styles);
 function SideBar() {
-   const isLogin = true;
+   const user = useSelector(userSelector);
    const userList = [
       {
          avatar:
@@ -99,7 +101,7 @@ function SideBar() {
                   </Link>
                </div>
             </div>
-            {!isLogin && (
+            {!user && (
                <div className={cx('login-group')}>
                   <p className={cx('login-text')}>
                      Đăng nhập để follow các tác giả, thích video và xem bình

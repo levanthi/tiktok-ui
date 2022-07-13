@@ -1,8 +1,34 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import axios from 'axios';
+import userSlice from './redux/userSlice';
 import { publicRoutes } from './routes';
 import { DefaultLayout } from './Layout';
 function App() {
+   const dispatch = useDispatch();
+   useEffect(() => {
+      axios
+         .get('https://localhost:3001/auth/login/success', {
+            params: {
+               autoLogin: JSON.parse(localStorage.getItem('tiktok'))?.autoLogin,
+            },
+         })
+         .then((res) => {
+            const user = res.data.user;
+            if (user) {
+               dispatch(
+                  userSlice.actions.login({
+                     name: user.displayName,
+                     id: user.id,
+                     thumbnail: user.photos[0].value,
+                     gender: user.gender,
+                     birth: user.birth,
+                  }),
+               );
+            }
+         });
+   }, []);
    return (
       <Router>
          <Routes>

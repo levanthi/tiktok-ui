@@ -26,6 +26,7 @@ const Menu = ({ children, items = [], className }) => {
                   if (isParent) {
                      setHistory([...history, item.children]);
                   } else {
+                     item.OnClick && item.OnClick();
                   }
                }}
             />

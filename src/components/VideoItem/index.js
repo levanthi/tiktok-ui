@@ -110,10 +110,10 @@ function VideoItem({ data, index }, ref) {
       if (!ref) return undefined;
       return {
          play: () => {
-            videoRef.current.play();
+            videoRef.current?.play();
          },
          pause: () => {
-            videoRef.current.pause();
+            videoRef.current?.pause();
          },
          video: videoRef.current,
       };

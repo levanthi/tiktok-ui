@@ -5,3 +5,7 @@ export const volumeSelector = (state) => {
 export const isMutedSelector = (state) => {
    return state.volume.isMuted;
 };
+
+export const userSelector = (state) => {
+   return state.user;
+};

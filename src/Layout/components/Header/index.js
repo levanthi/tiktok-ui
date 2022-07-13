@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import classNames from 'classnames/bind';
+import { useDispatch } from 'react-redux';
+import userSlice from '../../../redux/userSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
    faCircleXmark,
@@ -22,6 +25,7 @@ import UserItem from '../UserItem';
 import images from '../../../assets/images';
 import styles from './header.module.scss';
 import Menu from '../../../components/Popper/Menu';
+import { userSelector } from '../../../redux/selectors';
 
 const cx = classNames.bind(styles);
 const MENU_ITEMS_NOT_LOGIN = [
@@ -42,46 +46,6 @@ const MENU_ITEMS_NOT_LOGIN = [
       to: '/feedback',
    },
    { icon: images.keyboardCircle, title: 'Phím tắt trên bàn phím' },
-];
-const MENU_ITEMS_HAD_LOGIN = [
-   {
-      icon: images.defaultAvatar,
-      title: 'Xem hồ sơ',
-      to: '/profile',
-   },
-   {
-      icon: images.tiktokCoin,
-      title: 'Nhận xu',
-      to: '/coin',
-   },
-   {
-      icon: images.setting,
-      title: 'Cài đặt',
-      to: '/setting',
-   },
-   {
-      icon: images.ASquare,
-      title: 'Tiếng Việt',
-      children: {
-         title: 'Language',
-         data: [
-            { code: 'en', title: 'Tiếng Việt' },
-            { code: 'vi', title: 'English' },
-         ],
-      },
-   },
-   {
-      icon: images.questionCircle,
-      title: 'Phản hồi và trợ giúp',
-      to: '/feedback',
-   },
-   { icon: images.keyboardCircle, title: 'Phím tắt trên bàn phím' },
-   {
-      icon: images.logout,
-      title: 'Đăng xuất',
-      to: '/logout',
-      separate: true,
-   },
 ];
 
 const data = [
@@ -124,7 +88,53 @@ const data = [
 ];
 
 function Header() {
-   const isLogin = true;
+   const dispatch = useDispatch();
+   const MENU_ITEMS_HAD_LOGIN = useRef([
+      {
+         icon: images.defaultAvatar,
+         title: 'Xem hồ sơ',
+         to: '/profile',
+      },
+      {
+         icon: images.tiktokCoin,
+         title: 'Nhận xu',
+         to: '/coin',
+      },
+      {
+         icon: images.setting,
+         title: 'Cài đặt',
+         to: '/setting',
+      },
+      {
+         icon: images.ASquare,
+         title: 'Tiếng Việt',
+         children: {
+            title: 'Language',
+            data: [
+               { code: 'en', title: 'Tiếng Việt' },
+               { code: 'vi', title: 'English' },
+            ],
+         },
+      },
+      {
+         icon: images.questionCircle,
+         title: 'Phản hồi và trợ giúp',
+         to: '/feedback',
+      },
+      { icon: images.keyboardCircle, title: 'Phím tắt trên bàn phím' },
+      {
+         icon: images.logout,
+         title: 'Đăng xuất',
+         separate: true,
+         OnClick: () => {
+            dispatch(userSlice.actions.logout());
+            window.open('https://localhost:3001/auth/logout', '_self');
+         },
+      },
+   ]);
+
+   const user = useSelector(userSelector);
+   console.log(user);
    const [searchResult, setSearchResult] = useState([]);
    const [searchInput, setSearchInput] = useState('');
    const [isLoading, setIsLoading] = useState(false);
@@ -154,7 +164,6 @@ function Header() {
       } else {
          clearTimeout(searchTimerIdRef.current);
          searchTimerIdRef.current = setTimeout(() => {
-            console.log('hello');
             setIsLoading(true);
             if (searchInput) {
                setTimeout(() => {
@@ -246,19 +255,17 @@ function Header() {
                   </TippyHeadless>
                </div>
 
-               <div className={cx('actions', { 'had-login': isLogin })}>
-                  {!isLogin ? (
+               <div className={cx('actions', { 'had-login': user })}>
+                  {!user ? (
                      <>
-                        <Button classic>
+                        <Button
+                           onClick={() => {
+                              setIsShowAuthenPopup(true);
+                           }}
+                           classic
+                        >
                            <FontAwesomeIcon icon={faPlus} />
-                           <span
-                              onClick={() => {
-                                 setIsShowAuthenPopup(true);
-                              }}
-                              className={cx('ml-s')}
-                           >
-                              Tải lên
-                           </span>
+                           <span className={cx('ml-s')}>Tải lên</span>
                         </Button>
                         <Button
                            onClick={() => {
@@ -294,7 +301,7 @@ function Header() {
                         </Tippy>
                         <Menu
                            className={cx('ml-0')}
-                           items={MENU_ITEMS_HAD_LOGIN}
+                           items={MENU_ITEMS_HAD_LOGIN.current}
                         >
                            <Images
                               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTidCZGuRI6nf8C2GN9cYC1R_HRspzbaEWPDA&usqp=CAU"
